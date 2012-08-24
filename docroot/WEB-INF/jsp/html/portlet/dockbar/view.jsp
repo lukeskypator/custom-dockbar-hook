@@ -140,37 +140,42 @@ boolean hasLayoutUpdatePermission = LayoutPermissionUtil.contains(permissionChec
 		</c:if>
 		
 		<%
-		PortletURL addEvent = null;
-		PortletURL addJournal = null;
-		PortletURL addBlog = null;
-		PortletURL addDocument = null;
+		String addEventURL = "";
+		String addJournalURL = "";
+		String addBlogURL = "";
+		String addDocumentURL = "";
 		
 		if (permissionChecker.hasPermission(groupId, "org.lsp.liferay.portlet.socialliving.event", groupId, ADD_EVENT) || (permissionChecker.isGroupAdmin(groupId))) {
-			addEvent = PortletURLFactoryUtil.create(request, "3_WAR_sociallivingportlet", controlPanelPlid, PortletRequest.RENDER_PHASE);
+			PortletURL addEvent = PortletURLFactoryUtil.create(request, "3_WAR_sociallivingportlet", controlPanelPlid, PortletRequest.RENDER_PHASE);
 			addEvent.setParameter("redirect",addEvent.toString());
 			addEvent.setParameter("_3_WAR_sociallivingportlet_mvcPath","/common/edit_entry.jsp");	
+			addEvent.setParameter("doAsGroupId", String.valueOf(groupId));
+			addEventURL = addEvent.toString()+"&doAsGroupId="+groupId;
 		}
 		
 		if (JournalPermission.contains(permissionChecker, groupId, ActionKeys.ADD_ARTICLE) || (permissionChecker.isGroupAdmin(groupId))) {
-			addJournal = PortletURLFactoryUtil.create(request, "15", controlPanelPlid, PortletRequest.RENDER_PHASE);
+			PortletURL addJournal = PortletURLFactoryUtil.create(request, "15", controlPanelPlid, PortletRequest.RENDER_PHASE);
 			addJournal.setParameter("redirect",addJournal.toString());
 			addJournal.setParameter("_15_struts_action","/journal/edit_article");
+			addJournalURL = addJournal.toString()+"&doAsGroupId="+groupId;
 		}
 		
 		if (BlogsPermission.contains(permissionChecker, groupId, ActionKeys.ADD_ENTRY) || (permissionChecker.isGroupAdmin(groupId))) {
-			addBlog = PortletURLFactoryUtil.create(request, "161", controlPanelPlid, PortletRequest.RENDER_PHASE);
+			PortletURL addBlog = PortletURLFactoryUtil.create(request, "161", controlPanelPlid, PortletRequest.RENDER_PHASE);
 			addBlog.setParameter("redirect",addBlog.toString());
 			addBlog.setParameter("_161_struts_action","/blogs_admin/edit_entry");
+			addBlogURL = addBlog.toString()+"&doAsGroupId="+groupId;
 		}
 		
 		if (DLPermission.contains(permissionChecker, groupId, ActionKeys.ADD_DOCUMENT) || (permissionChecker.isGroupAdmin(groupId))) {
-			addDocument = PortletURLFactoryUtil.create(request, "20", controlPanelPlid, PortletRequest.RENDER_PHASE);
+			PortletURL addDocument = PortletURLFactoryUtil.create(request, "20", controlPanelPlid, PortletRequest.RENDER_PHASE);
+			addDocumentURL = addDocument.toString()+"&doAsGroupId="+groupId;
 		}
 		
 		%>
 		
 		
-		<c:if test="<%= !group.isControlPanel() && (themeDisplay.isShowLayoutTemplatesIcon() || themeDisplay.isShowManageSiteMembershipsIcon() || themeDisplay.isShowPageSettingsIcon() || themeDisplay.isShowSiteContentIcon() || themeDisplay.isShowSiteMapSettingsIcon() || themeDisplay.isShowSiteSettingsIcon()) && (addEvent != null || addJournal != null || addBlog != null || addDocument != null) %>">
+		<c:if test="<%= !group.isControlPanel() && (themeDisplay.isShowLayoutTemplatesIcon() || themeDisplay.isShowManageSiteMembershipsIcon() || themeDisplay.isShowPageSettingsIcon() || themeDisplay.isShowSiteContentIcon() || themeDisplay.isShowSiteMapSettingsIcon() || themeDisplay.isShowSiteSettingsIcon()) && (addEventURL != \"\" || addJournalURL != \"\" || addBlogURL != \"\" || addDocumentURL != \"\") %>">
 			<li class="create-content has-submenu" id="<portlet:namespace />createContent">
 				<a class="menu-button" href="javascript:;">
 					<span>
@@ -181,27 +186,27 @@ boolean hasLayoutUpdatePermission = LayoutPermissionUtil.contains(permissionChec
 				<div class="aui-menu create-content-menu aui-overlaycontext-hidden" id="<portlet:namespace />createContentContainer">
 					<div class="aui-menu-content">
 						<ul>
-							<c:if test="<%= addEvent != null %>">							
+							<c:if test="<%= addEventURL != \"\" %>">							
 								<li class="first add-event use-dialog full-dialog">
-									<aui:a href="<%= addEvent.toString() %>" label="add-event" title="add-event" />
+									<aui:a href="<%= addEventURL %>" label="add-event" title="add-event" />
 								</li>
 							</c:if>
 							
-							<c:if test="<%= addJournal != null %>">							
+							<c:if test="<%= addJournalURL != \"\" %>">							
 								<li class="first add-journal-entry use-dialog full-dialog">
-									<aui:a href="<%= addJournal.toString() %>" label="add-content" title="add-content" />
+									<aui:a href="<%= addJournalURL %>" label="add-content" title="add-content" />
 								</li>
 							</c:if>
 							
-							<c:if test="<%= addBlog != null %>">
+							<c:if test="<%= addBlogURL != \"\" %>">
 								<li class="first add-blog-entry use-dialog full-dialog">
-									<aui:a href="<%= addBlog.toString() %>" label="add-blog-entry" title="add-blog-entry" />
+									<aui:a href="<%= addBlogURL %>" label="add-blog-entry" title="add-blog-entry" />
 								</li>
 							</c:if>
 							
-							<c:if test="<%= addDocument != null %>">
+							<c:if test="<%= addDocumentURL != \"\" %>">
 								<li class="first add-media use-dialog full-dialog">
-									<aui:a href="<%= addDocument.toString() %>" label="add-media" title="add-media" />
+									<aui:a href="<%= addDocumentURL %>" label="add-media" title="add-media" />
 								</li>
 							</c:if>
 

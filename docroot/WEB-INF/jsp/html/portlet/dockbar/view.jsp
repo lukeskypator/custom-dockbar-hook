@@ -147,7 +147,7 @@ boolean hasLayoutUpdatePermission = LayoutPermissionUtil.contains(permissionChec
 		
 		if (permissionChecker.hasPermission(groupId, "org.lsp.liferay.portlet.socialliving.event", groupId, ADD_EVENT) || (permissionChecker.isGroupAdmin(groupId))) {
 			PortletURL addEvent = PortletURLFactoryUtil.create(request, "3_WAR_sociallivingportlet", controlPanelPlid, PortletRequest.RENDER_PHASE);
-			addEvent.setParameter("redirect",addEvent.toString());
+			addEvent.setParameter("redirect",addEvent.toString()+"&doAsGroupId="+groupId);
 			addEvent.setParameter("_3_WAR_sociallivingportlet_mvcPath","/common/edit_entry.jsp");	
 			addEvent.setParameter("doAsGroupId", String.valueOf(groupId));
 			addEventURL = addEvent.toString()+"&doAsGroupId="+groupId;
@@ -155,14 +155,14 @@ boolean hasLayoutUpdatePermission = LayoutPermissionUtil.contains(permissionChec
 		
 		if (JournalPermission.contains(permissionChecker, groupId, ActionKeys.ADD_ARTICLE) || (permissionChecker.isGroupAdmin(groupId))) {
 			PortletURL addJournal = PortletURLFactoryUtil.create(request, "15", controlPanelPlid, PortletRequest.RENDER_PHASE);
-			addJournal.setParameter("redirect",addJournal.toString());
+			addJournal.setParameter("redirect",addJournal.toString()+"&doAsGroupId="+groupId);
 			addJournal.setParameter("_15_struts_action","/journal/edit_article");
 			addJournalURL = addJournal.toString()+"&doAsGroupId="+groupId;
 		}
 		
 		if (BlogsPermission.contains(permissionChecker, groupId, ActionKeys.ADD_ENTRY) || (permissionChecker.isGroupAdmin(groupId))) {
 			PortletURL addBlog = PortletURLFactoryUtil.create(request, "161", controlPanelPlid, PortletRequest.RENDER_PHASE);
-			addBlog.setParameter("redirect",addBlog.toString());
+			addBlog.setParameter("redirect",addBlog.toString()+"&doAsGroupId="+groupId);
 			addBlog.setParameter("_161_struts_action","/blogs_admin/edit_entry");
 			addBlogURL = addBlog.toString()+"&doAsGroupId="+groupId;
 		}
